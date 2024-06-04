@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         //prueba
+        
     }
 
     //Metodo para añadir canciones
@@ -29,13 +30,16 @@ public class Main {
         }
     }
 
+    // Método para borrar canciones
     public void borrarCancion(){
         String borrarSql = "DELETE FROM playlist WHERE id = ?;";
         int id = 0;
+        int actualizarFila;
         try {
             Connection conexion = DriverManager.getConnection("jdbc:mariadb://localhost:3306/spotify", "root", "123456");
             PreparedStatement statement = conexion.prepareStatement(borrarSql);
             statement.setInt(1, id);
+            actualizarFila = statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
