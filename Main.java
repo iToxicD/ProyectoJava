@@ -1,9 +1,19 @@
-import  java.sql.*;
+import java.sql.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args){
-        //prueba
+        Scanner sc = new Scanner(System.in);
+        int opcion;
+        opcion = sc.nextInt();
+        switch (opcion){
+            case 1:
+                nuevaCancion();
+                break;
+            case 2:
+                borrarCancion();
+                break;
+        }
 
     }
 
@@ -36,6 +46,27 @@ public class Main {
         }
     }
 
+    // Método para mostrar la lista de canciones.
+    public static void listaCanciones(){
+        String listaSql = "SELECT * FROM playlist;";
+        int id;
+        String nombre, autor;
+        Time duracion;
+        try {
+            Connection conexion = DriverManager.getConnection("jdbc:mariadb://localhost:3306/spotify", "root", "123456");
+            Statement statement = conexion.createStatement();
+            ResultSet rs = statement.executeQuery(listaSql);
+            while (rs.next()){
+                id = rs.getInt("id");
+                nombre = rs.getString("nombre");
+                autor = rs.getString("autor");
+                duracion = rs.getTime("duracion");
+                System.out.println("Id: " + id +", Nombre: " + nombre + ", Autor: " + autor + ", Duración: " + duracion );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     // Método para borrar canciones
     public static void borrarCancion(){
         Scanner sc = new Scanner(System.in);
